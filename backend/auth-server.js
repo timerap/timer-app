@@ -31,6 +31,9 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+// Support Email
+const SUPPORT_EMAIL = 'timerapp.io@hmail.com';
+
 // Google OAuth2
 const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
@@ -71,16 +74,27 @@ async function sendVerificationEmail(email, verificationCode) {
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to: email,
-        subject: '✓ تحقق من بريدك الإلكتروني',
+        subject: '✓ تحقق من بريدك الإلكتروني - تطبيق المؤقت',
         html: `
-            <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
-                <h2 style="color: #667eea;">مرحباً بك في تطبيق المؤقت</h2>
-                <p>شكراً لتسجيلك معنا! يرجى التحقق من بريدك الإلكتروني باستخدام الكود أدناه:</p>
-                <div style="background: #f5f5f5; padding: 20px; border-radius: 5px; margin: 20px 0;">
-                    <h3 style="color: #333; letter-spacing: 2px;">${verificationCode}</h3>
+            <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f5f5f5;">
+                <div style="background: white; padding: 40px; border-radius: 10px; max-width: 500px; margin: 0 auto;">
+                    <h2 style="color: #667eea; margin-bottom: 20px;">⏱️ تطبيق المؤقت</h2>
+                    <h3 style="color: #333; margin-bottom: 15px;">مرحباً بك!</h3>
+                    <p style="color: #666; line-height: 1.6;">شكراً لتسجيلك معنا! يرجى التحقق من بريدك الإلكتروني باستخدام الكود أدناه:</p>
+                    <div style="background: #f0f0f0; padding: 20px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #667eea;">
+                        <h3 style="color: #333; letter-spacing: 2px; margin: 0;">${verificationCode}</h3>
+                    </div>
+                    <p style="color: #999; font-size: 14px;">هذا الكود صالح لمدة 24 ساعة</p>
+                    <p style="color: #999; font-size: 12px; margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px;">
+                        إذا لم تقم بهذا الطلب، يرجى تجاهل هذا البريد
+                    </p>
+                    <p style="color: #999; font-size: 12px; margin-top: 10px;">
+                        للدعم والمساعدة: 
+                        <a href="mailto:${SUPPORT_EMAIL}" style="color: #667eea; text-decoration: none;">
+                            ${SUPPORT_EMAIL}
+                        </a>
+                    </p>
                 </div>
-                <p>هذا الكود صالح لمدة 24 ساعة</p>
-                <p style="color: #999; font-size: 12px;">إذا لم تقم بهذا الطلب، يرجى تجاهل هذا البريد</p>
             </div>
         `
     };
@@ -103,18 +117,29 @@ async function sendPasswordResetEmail(email, resetToken) {
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to: email,
-        subject: 'إعادة تعيين كلمة المرور',
+        subject: 'إعادة تعيين كلمة المرور - تطبيق المؤقت',
         html: `
-            <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
-                <h2 style="color: #667eea;">إعادة تعيين كلمة المرور</h2>
-                <p>لقد طلبت إعادة تعيين كلمة المرور الخاصة بك</p>
-                <p>
-                    <a href="${resetLink}" style="background: #667eea; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 20px 0;">
-                        إعادة تعيين كلمة المرور
-                    </a>
-                </p>
-                <p style="color: #999; font-size: 12px;">هذا الرابط صالح لمدة 1 ساعة فقط</p>
-                <p style="color: #999; font-size: 12px;">إذا لم تطلب هذا، يرجى تجاهل هذا البريد</p>
+            <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f5f5f5;">
+                <div style="background: white; padding: 40px; border-radius: 10px; max-width: 500px; margin: 0 auto;">
+                    <h2 style="color: #667eea; margin-bottom: 20px;">⏱️ تطبيق المؤقت</h2>
+                    <h3 style="color: #333; margin-bottom: 15px;">إعادة تعيين كلمة المرور</h3>
+                    <p style="color: #666; line-height: 1.6;">لقد طلبت إعادة تعيين كلمة المرور الخاصة بك. اضغط على الزر أدناه لإنشاء كلمة مرور جديدة:</p>
+                    <p style="margin: 30px 0;">
+                        <a href="${resetLink}" style="background: #667eea; color: white; padding: 12px 30px; border-radius: 5px; text-decoration: none; display: inline-block; font-weight: bold;">
+                            إعادة تعيين كلمة المرور
+                        </a>
+                    </p>
+                    <p style="color: #999; font-size: 12px;">هذا الرابط صالح لمدة 1 ساعة فقط</p>
+                    <p style="color: #999; font-size: 12px; margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px;">
+                        إذا لم تطلب هذا، يرجى تجاهل هذا البريد
+                    </p>
+                    <p style="color: #999; font-size: 12px; margin-top: 10px;">
+                        للدعم والمساعدة: 
+                        <a href="mailto:${SUPPORT_EMAIL}" style="color: #667eea; text-decoration: none;">
+                            ${SUPPORT_EMAIL}
+                        </a>
+                    </p>
+                </div>
             </div>
         `
     };
@@ -137,10 +162,18 @@ async function sendNotification(email, subject, message) {
         to: email,
         subject: subject,
         html: `
-            <div style="font-family: Arial, sans-serif; padding: 20px;">
-                <h2 style="color: #667eea;">⏱️ تطبيق المؤقت</h2>
-                <div style="background: #f5f5f5; padding: 15px; border-radius: 5px;">
-                    ${message}
+            <div style="font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5;">
+                <div style="background: white; padding: 30px; border-radius: 10px; max-width: 500px; margin: 0 auto;">
+                    <h2 style="color: #667eea; margin-bottom: 20px;">⏱️ تطبيق المؤقت</h2>
+                    <div style="background: #f9f9f9; padding: 20px; border-radius: 5px; border-left: 4px solid #667eea; line-height: 1.6;">
+                        ${message}
+                    </div>
+                    <p style="color: #999; font-size: 12px; margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px;">
+                        للدعم والمساعدة: 
+                        <a href="mailto:${SUPPORT_EMAIL}" style="color: #667eea; text-decoration: none;">
+                            ${SUPPORT_EMAIL}
+                        </a>
+                    </p>
                 </div>
             </div>
         `
@@ -151,6 +184,62 @@ async function sendNotification(email, subject, message) {
         return true;
     } catch (error) {
         console.error('Notification send error:', error);
+        return false;
+    }
+}
+
+/**
+ * إرسال بريد الدعم من المستخدمين
+ */
+async function sendSupportEmail(userEmail, userName, subject, message) {
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: SUPPORT_EMAIL,
+        replyTo: userEmail,
+        subject: `[دعم] ${subject} - من ${userName}`,
+        html: `
+            <div style="font-family: Arial, sans-serif; padding: 20px;">
+                <h2 style="color: #667eea;">رسالة دعم جديدة</h2>
+                <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 15px 0;">
+                    <p><strong>من:</strong> ${userName}</p>
+                    <p><strong>البريد الإلكتروني:</strong> <a href="mailto:${userEmail}">${userEmail}</a></p>
+                    <p><strong>الموضوع:</strong> ${subject}</p>
+                    <p><strong>الرسالة:</strong></p>
+                    <p>${message.replace(/\n/g, '<br>')}</p>
+                </div>
+            </div>
+        `
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        
+        // إرسال تأكيد للمستخدم
+        const confirmOptions = {
+            from: process.env.EMAIL_USER,
+            to: userEmail,
+            subject: 'تم استلام رسالتك - فريق الدعم',
+            html: `
+                <div style="font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5;">
+                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 500px; margin: 0 auto;">
+                        <h2 style="color: #667eea; margin-bottom: 20px;">⏱️ تطبيق المؤقت</h2>
+                        <h3 style="color: #333;">شكراً لتواصلك معنا!</h3>
+                        <p style="color: #666; line-height: 1.6;">تم استلام رسالتك بنجاح. سيرد عليك فريق الدعم في أقرب وقت ممكن.</p>
+                        <p style="color: #999; font-size: 12px; margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px;">
+                            فريق الدعم: 
+                            <a href="mailto:${SUPPORT_EMAIL}" style="color: #667eea; text-decoration: none;">
+                                ${SUPPORT_EMAIL}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            `
+        };
+        
+        await transporter.sendMail(confirmOptions);
+        return true;
+    } catch (error) {
+        console.error('Support email error:', error);
         return false;
     }
 }
@@ -325,7 +414,7 @@ app.post('/auth/login', async (req, res) => {
         await sendNotification(
             email,
             'تنبيه الأمان: تم تسجيل الدخول',
-            '<p>تم تسجيل الدخول إلى حسابك للتو. إذا لم تقم بذلك، يرجى تغيير كلمة المرور فوراً.</p>'
+            '<p>✓ تم تسجيل الدخول إلى حسابك للتو من جهاز جديد.</p><p style="color: #999; font-size: 12px;">إذا لم تقم بذلك، يرجى تغيير كلمة المرور فوراً.</p>'
         );
 
     } catch (error) {
@@ -387,7 +476,7 @@ app.post('/auth/google-login', async (req, res) => {
             await sendNotification(
                 email,
                 'أهلاً وسهلاً في تطبيق المؤقت',
-                '<p>تم ربط حسابك بـ Google بنجاح. استمتع بميزات التطبيق!</p>'
+                '<p>✓ تم ربط حسابك بـ Google بنجاح. استمتع بميزات التطبيق الكاملة!</p>'
             );
         }
 
@@ -481,7 +570,7 @@ app.post('/auth/reset-password', async (req, res) => {
         await sendNotification(
             decoded.email,
             'تم تغيير كلمة المرور',
-            '<p>تم تغيير كلمة المرور الخاصة بك بنجاح.</p>'
+            '<p>✓ تم تغيير كلمة المرور الخاصة بك بنجاح.</p>'
         );
 
     } catch (error) {
@@ -525,6 +614,51 @@ app.post('/notifications/send', (req, res) => {
     }
 });
 
+/**
+ * إرسال رسالة دعم من المستخدم
+ */
+app.post('/support/send', async (req, res) => {
+    try {
+        const { email, name, subject, message } = req.body;
+
+        // التحقق من المدخلات
+        if (!email || !name || !subject || !message) {
+            return res.status(400).json({
+                success: false,
+                message: 'يرجى ملء جميع الحقول المطلوبة'
+            });
+        }
+
+        if (!isValidEmail(email)) {
+            return res.status(400).json({
+                success: false,
+                message: 'البريد الإلكتروني غير صحيح'
+            });
+        }
+
+        // إرسال رسالة الدعم
+        const emailSent = await sendSupportEmail(email, name, subject, message);
+
+        if (emailSent) {
+            res.json({
+                success: true,
+                message: 'تم إرسال رسالتك بنجاح. سيرد عليك فريق الدع�� قريباً'
+            });
+        } else {
+            res.status(500).json({
+                success: false,
+                message: 'فشل إرسال الرسالة. حاول لاحقاً'
+            });
+        }
+    } catch (error) {
+        console.error('Support email error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'حدث خطأ في الخادم'
+        });
+    }
+});
+
 // ==================== Server Start ====================
 
 const PORT = process.env.PORT || 3000;
@@ -532,6 +666,7 @@ app.listen(PORT, () => {
     console.log(`✓ Authentication Server running on port ${PORT}`);
     console.log(`✓ Email notifications enabled`);
     console.log(`✓ Google OAuth2 configured`);
+    console.log(`✓ Support Email: ${SUPPORT_EMAIL}`);
 });
 
 module.exports = app;
